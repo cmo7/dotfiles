@@ -1,0 +1,20 @@
+# general settings
+
+auto-reload yes
+max-items 50
+
+# external browser
+browser "/usr/local/bin/w3m %u"
+
+# unbind keys
+unbind-key ENTER
+unbind-key j
+unbind-key k
+unbind-key J
+unbind-key K
+
+# bind keys - vim style
+bind-key j down
+bind-key k up
+bind-key l open
+bind-key h quit
