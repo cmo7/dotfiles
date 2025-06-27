@@ -1,0 +1,6 @@
+[user]
+    name = Marce Concepción
+    email = mconcepcion@nartexsoft.com
+
+[credential "https://www.gobiernodecanarias.net"]
+    provider = generic

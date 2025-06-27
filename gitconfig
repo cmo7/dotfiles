@@ -1,0 +1,52 @@
+[core]
+    editor = nvim
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
+    pager = delta
+
+[pager]
+    diff = delta
+    log = delta
+    show = delta
+    reflog = delta
+
+[delta]
+    features = side-by-side line-numbers decorations
+    line-numbers = true
+    side-by-side = true
+    navigate = true
+    syntax-theme = Dracula
+
+[color]
+    ui = auto
+
+[alias]
+    st = status
+    co = checkout
+    br = branch
+    ci = commit
+    lg = log --oneline --graph --decorate --all
+    last = log -1 HEAD
+    amend = commit --amend --no-edit
+    unstage = reset HEAD --
+    who = shortlog -sn
+    what = show --stat
+    fixup = commit --fixup
+
+[merge]
+    tool = vimdiff
+
+[diff]
+    tool = vimdiff
+
+[push]
+    default = simple
+
+[init]
+    defaultBranch = main
+
+[includeIf "gitdir:${HOME}/code/nartex/"]
+    path = ${HOME}/.gitconfig-nartex
+
+[includeIf "gitdir:${HOME}/code/personal/"]
+    path = ${HOME}/.gitconfig-personal
