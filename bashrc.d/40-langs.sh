@@ -58,21 +58,21 @@ langs() {
   #   ----------   ----------  --------------- ------------------ ------------------ --------------- ------------------- --------------------
   local LANGS=(
     "python3     python3     python          python3            python3            python          python3             python3"
-    "python2     python2     python27        python2            python2            python2         python2             python@2"
-    "node        node        nodejs          nodejs             nodejs             nodejs          nodejs              node"
+    "python2     python2     -               python2            -                  python2         python2             python@2"
+    "node        node        nodejs          nodejs             nodejs             nodejs          nodejs18            node"
     "go          go          go              golang-go          golang             go              go                  go"
     "rust        rustc       rust            rustc              rust               rust            rust                rust"
-    "java        java        openjdk         default-jdk        java-latest-openjdk jdk-openjdk     java-11-openjdk     openjdk"
+    "java        java        openjdk         default-jdk        java-17-openjdk    jdk-openjdk     java-17-openjdk     openjdk"
     "gcc         gcc         gcc             gcc                gcc                gcc             gcc                 gcc"
-    "clang       clang       llvm            clang              clang              clang           llvm-clang          llvm"
+    "clang       clang       llvm            clang              clang              clang           llvm17              llvm"
     "ruby        ruby        ruby            ruby               ruby               ruby            ruby                ruby"
-    "php         php         php             php                php                php             php                 php"
+    "php         php         php             php                php                php             php8                php"
     "dotnet      dotnet      dotnet-sdk      dotnet-sdk-8.0     dotnet-sdk-8.0     dotnet-sdk      dotnet-sdk-8_0      dotnet"
     "lua         lua         lua             lua5.4             lua                lua             lua54               lua"
     "perl        perl        perl            perl               perl               perl            perl                perl"
-    "r           R           r               r-base             R                  r               R-base              r"
-    "scala       scala       scala           scala              scala              scala           scala               scala"
-    "kotlin      kotlin      kotlin          kotlin             kotlin             kotlin          kotlin              kotlin"
+    "r           R           r               r-base             R                  r               R-base-devel        r"
+    "scala       scala       -               scala              -                  scala           -                   scala"
+    "kotlin      kotlin      -               kotlin             -                  kotlin          -                   kotlin"
     "swift       swift       -               swift              swift              swift           swift               swift"
   )
 
@@ -97,8 +97,15 @@ langs() {
         [[ -n "$FILTER" && "$FILTER" != "$name" ]] && continue
         
         # Verificar si el lenguaje está disponible para el gestor actual
-        index=${PM_INDEX[$PM]}
-        pkg_name=$(echo "$line" | awk -v i=$index '{ print $i }')
+        case "$PM" in
+          scoop)  pkg_name="$scoop" ;;
+          apt)    pkg_name="$apt" ;;
+          dnf)    pkg_name="$dnf" ;;
+          pacman) pkg_name="$pac" ;;
+          zypper) pkg_name="$zyp" ;;
+          brew)   pkg_name="$brew" ;;
+        esac
+        
         if [[ "$pkg_name" == "-" ]]; then
           printf "⚠️ %-12s OMITIDO   (no disponible en %s)\n" "$name" "$PM"
           continue
@@ -124,8 +131,15 @@ langs() {
         [[ -n "$FILTER" && "$FILTER" != "$name" ]] && continue
         
         # Verificar si el lenguaje está disponible para el gestor actual
-        index=${PM_INDEX[$PM]}
-        pkg_name=$(echo "$line" | awk -v i=$index '{ print $i }')
+        case "$PM" in
+          scoop)  pkg_name="$scoop" ;;
+          apt)    pkg_name="$apt" ;;
+          dnf)    pkg_name="$dnf" ;;
+          pacman) pkg_name="$pac" ;;
+          zypper) pkg_name="$zyp" ;;
+          brew)   pkg_name="$brew" ;;
+        esac
+        
         if [[ "$pkg_name" == "-" ]]; then
           continue  # Omitir lenguajes no disponibles
         fi
@@ -142,12 +156,30 @@ langs() {
 
       echo "🔧 Instalando: ${TO_INSTALL[*]}"
       case "$PM" in
-        scoop)  scoop install "${TO_INSTALL[@]}" ;;
-        apt)    sudo apt update && sudo apt install -y "${TO_INSTALL[@]}" ;;
-        dnf)    sudo dnf install -y "${TO_INSTALL[@]}" ;;
-        pacman) sudo pacman -S --noconfirm "${TO_INSTALL[@]}" ;;
-        zypper) sudo zypper install -y "${TO_INSTALL[@]}" ;;
-        brew)   brew install "${TO_INSTALL[@]}" ;;
+        scoop)  
+          for pkg in "${TO_INSTALL[@]}"; do
+            echo "📦 Instalando $pkg..."
+            scoop install "$pkg" || echo "⚠️  Falló la instalación de $pkg"
+          done
+          ;;
+        apt)    
+          sudo apt update && sudo apt install -y "${TO_INSTALL[@]}" 
+          ;;
+        dnf)    
+          sudo dnf install -y --skip-unavailable "${TO_INSTALL[@]}" 
+          ;;
+        pacman) 
+          sudo pacman -S --noconfirm "${TO_INSTALL[@]}" 
+          ;;
+        zypper) 
+          sudo zypper install -y "${TO_INSTALL[@]}" 
+          ;;
+        brew)   
+          for pkg in "${TO_INSTALL[@]}"; do
+            echo "📦 Instalando $pkg..."
+            brew install "$pkg" || echo "⚠️  Falló la instalación de $pkg"
+          done
+          ;;
       esac
       ;;
     update)
@@ -165,8 +197,17 @@ langs() {
       echo "📋 Lenguajes disponibles:"
       for line in "${LANGS[@]}"; do
         read -r name exe scoop apt dnf pac zyp brew <<< "$line"
-        index=${PM_INDEX[$PM]}
-        pkg_name=$(echo "$line" | awk -v i=$index '{ print $i }')
+        
+        # Verificar si el lenguaje está disponible para el gestor actual
+        case "$PM" in
+          scoop)  pkg_name="$scoop" ;;
+          apt)    pkg_name="$apt" ;;
+          dnf)    pkg_name="$dnf" ;;
+          pacman) pkg_name="$pac" ;;
+          zypper) pkg_name="$zyp" ;;
+          brew)   pkg_name="$brew" ;;
+        esac
+        
         if [[ "$pkg_name" != "-" ]]; then
           printf "  %-12s (%s)\n" "$name" "$exe"
         fi
