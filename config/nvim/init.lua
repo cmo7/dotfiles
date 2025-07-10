@@ -164,6 +164,64 @@ local function toggle_relative_number()
 end
 map('n', '<leader>r', toggle_relative_number)
 
+-- Función para cambiar tema rápidamente en Neovim
+local function change_theme(theme)
+    if theme == 'dark' then
+        -- Tema oscuro por defecto (One Dark)
+        vim.cmd.colorscheme('default')
+        vim.api.nvim_set_hl(0, 'Normal', { fg = '#abb2bf', bg = '#282c34' })
+        vim.api.nvim_set_hl(0, 'LineNr', { fg = '#5c6370' })
+        vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#e5c07b', bold = true })
+        vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#2c323c' })
+        vim.api.nvim_set_hl(0, 'Visual', { bg = '#3e4451' })
+        vim.api.nvim_set_hl(0, 'Search', { fg = '#282c34', bg = '#e06c75' })
+        print('Tema oscuro activado')
+    elseif theme == 'light' then
+        -- Tema claro
+        vim.cmd.colorscheme('default')
+        vim.api.nvim_set_hl(0, 'Normal', { fg = '#2d3748', bg = '#ffffff' })
+        vim.api.nvim_set_hl(0, 'LineNr', { fg = '#a0aec0' })
+        vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#ed8936', bold = true })
+        vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#f7fafc' })
+        vim.api.nvim_set_hl(0, 'Visual', { bg = '#bee3f8' })
+        vim.api.nvim_set_hl(0, 'Search', { fg = '#2d3748', bg = '#fbd38d' })
+        print('Tema claro activado')
+    elseif theme == 'gruvbox' then
+        -- Tema Gruvbox
+        vim.cmd.colorscheme('default')
+        vim.api.nvim_set_hl(0, 'Normal', { fg = '#ebdbb2', bg = '#282828' })
+        vim.api.nvim_set_hl(0, 'LineNr', { fg = '#7c6f64' })
+        vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#fabd2f', bold = true })
+        vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#3c3836' })
+        vim.api.nvim_set_hl(0, 'Visual', { bg = '#665c54' })
+        vim.api.nvim_set_hl(0, 'Search', { fg = '#282828', bg = '#fabd2f' })
+        print('Tema Gruvbox activado')
+    elseif theme == 'dracula' then
+        -- Tema Dracula
+        vim.cmd.colorscheme('default')
+        vim.api.nvim_set_hl(0, 'Normal', { fg = '#f8f8f2', bg = '#282a36' })
+        vim.api.nvim_set_hl(0, 'LineNr', { fg = '#6272a4' })
+        vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#f1fa8c', bold = true })
+        vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#44475a' })
+        vim.api.nvim_set_hl(0, 'Visual', { bg = '#6272a4' })
+        vim.api.nvim_set_hl(0, 'Search', { fg = '#282a36', bg = '#ff79c6' })
+        print('Tema Dracula activado')
+    else
+        print('Temas disponibles: dark, light, gruvbox, dracula')
+    end
+end
+
+-- Comandos para cambiar tema fácilmente
+vim.api.nvim_create_user_command('Theme', function(opts)
+    change_theme(opts.args)
+end, { nargs = 1 })
+
+-- Mapeos para cambiar tema
+map('n', '<leader>td', function() change_theme('dark') end)
+map('n', '<leader>tl', function() change_theme('light') end)
+map('n', '<leader>tg', function() change_theme('gruvbox') end)
+map('n', '<leader>tr', function() change_theme('dracula') end)
+
 -- ==============================================================================
 -- AUTO COMANDOS
 -- ==============================================================================
@@ -268,14 +326,73 @@ vim.opt.termguicolors = true
 -- Esquema de colores
 vim.cmd.colorscheme('default')
 
--- Personalización de colores
-vim.api.nvim_set_hl(0, 'LineNr', { fg = '#808080' })
-vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#ffdd00', bold = true })
-vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#444444' })
-vim.api.nvim_set_hl(0, 'Visual', { bg = '#4e4e4e' })
-vim.api.nvim_set_hl(0, 'Search', { bg = '#5f5f00', fg = '#ffffff' })
-vim.api.nvim_set_hl(0, 'MatchParen', { bg = '#5f005f', fg = '#ffffff' })
-vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#2d2d2d' })
+-- Tema moderno inspirado en VS Code Dark y One Dark
+-- Colores base
+vim.api.nvim_set_hl(0, 'Normal', { fg = '#abb2bf', bg = '#282c34' })
+vim.api.nvim_set_hl(0, 'NonText', { fg = '#5c6370' })
+
+-- Números de línea con colores suaves
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#5c6370' })
+vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#e5c07b', bold = true })
+vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#2c323c' })
+
+-- Selección y búsqueda con colores modernos
+vim.api.nvim_set_hl(0, 'Visual', { bg = '#3e4451' })
+vim.api.nvim_set_hl(0, 'Search', { fg = '#282c34', bg = '#e06c75' })
+vim.api.nvim_set_hl(0, 'IncSearch', { fg = '#282c34', bg = '#e5c07b' })
+
+-- Paréntesis coincidentes
+vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#ffffff', bg = '#528bff', bold = true })
+
+-- Comentarios más suaves
+vim.api.nvim_set_hl(0, 'Comment', { fg = '#5c6370', italic = true })
+
+-- Strings y constantes
+vim.api.nvim_set_hl(0, 'String', { fg = '#98c379' })
+vim.api.nvim_set_hl(0, 'Constant', { fg = '#e5c07b' })
+vim.api.nvim_set_hl(0, 'Number', { fg = '#d19a66' })
+
+-- Palabras clave y tipos
+vim.api.nvim_set_hl(0, 'Keyword', { fg = '#c678dd' })
+vim.api.nvim_set_hl(0, 'Type', { fg = '#e5c07b' })
+vim.api.nvim_set_hl(0, 'Function', { fg = '#61afef' })
+
+-- Operadores y delimitadores
+vim.api.nvim_set_hl(0, 'Operator', { fg = '#56b6c2' })
+vim.api.nvim_set_hl(0, 'Delimiter', { fg = '#abb2bf' })
+
+-- Statusline moderna
+vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#abb2bf', bg = '#3e4451', bold = true })
+vim.api.nvim_set_hl(0, 'StatusLineNC', { fg = '#828997', bg = '#5c6370' })
+
+-- Menús de completado
+vim.api.nvim_set_hl(0, 'Pmenu', { fg = '#abb2bf', bg = '#353b45' })
+vim.api.nvim_set_hl(0, 'PmenuSel', { fg = '#ffffff', bg = '#3e4451', bold = true })
+vim.api.nvim_set_hl(0, 'PmenuSbar', { bg = '#5c6370' })
+vim.api.nvim_set_hl(0, 'PmenuThumb', { bg = '#828997' })
+
+-- Fold (plegado) moderno
+vim.api.nvim_set_hl(0, 'Folded', { fg = '#848b98', bg = '#353b45' })
+vim.api.nvim_set_hl(0, 'FoldColumn', { fg = '#5c6370', bg = '#282c34' })
+
+-- Errores y warnings
+vim.api.nvim_set_hl(0, 'Error', { fg = '#ffffff', bg = '#e06c75', bold = true })
+vim.api.nvim_set_hl(0, 'Warning', { fg = '#282c34', bg = '#e5c07b', bold = true })
+
+-- Diferencias (para Git)
+vim.api.nvim_set_hl(0, 'DiffAdd', { fg = '#98c379', bg = '#1e3d18' })
+vim.api.nvim_set_hl(0, 'DiffChange', { fg = '#e5c07b', bg = '#2c2418' })
+vim.api.nvim_set_hl(0, 'DiffDelete', { fg = '#e06c75', bg = '#3d1e18' })
+vim.api.nvim_set_hl(0, 'DiffText', { fg = '#ffffff', bg = '#4a3518', bold = true })
+
+-- Signos en la columna lateral
+vim.api.nvim_set_hl(0, 'SignColumn', { bg = '#282c34' })
+vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#2c323c' })
+
+-- Tabs y espacios
+vim.api.nvim_set_hl(0, 'TabLine', { fg = '#828997', bg = '#353b45' })
+vim.api.nvim_set_hl(0, 'TabLineSel', { fg = '#ffffff', bg = '#3e4451', bold = true })
+vim.api.nvim_set_hl(0, 'TabLineFill', { bg = '#282c34' })
 
 -- ==============================================================================
 -- CONFIGURACIÓN DEL STATUSLINE
