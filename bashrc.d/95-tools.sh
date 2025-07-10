@@ -25,6 +25,8 @@ tools() {
   local ACTION="${1:-doctor}"
   local FILTER="${2:-}"  # Opción para filtrar por herramienta
 
+  #   Ejecutable    Scoop      APT         DNF         Pacman     Zypper     Brew
+  #   -----------  ---------  ----------  ----------  ----------  ---------  ----------
   local TOOLS=(
     "git         git         git         git         git         git"
     "fzf         fzf         fzf         fzf         fzf         fzf"
@@ -35,9 +37,13 @@ tools() {
     "exa         exa         exa         exa         exa         exa"
     "starship    starship    starship    starship    starship    starship"
     "zoxide      zoxide      zoxide      zoxide      zoxide      zoxide"
+    "extract     pv          pv          pv          pv          pv"
+    "unzip       unzip       unzip       unzip       unzip       unzip"
+    "7z          7z          p7zip-full  p7zip       p7zip       p7zip"
+    "unrar       unrar       unrar       unrar       unrar       unrar"
   )
 
-  declare -A PM_INDEX=( [scoop]=0 [apt]=2 [dnf]=3 [pacman]=4 [zypper]=2 [brew]=5 )
+  declare -A PM_INDEX=( [scoop]=1 [apt]=2 [dnf]=3 [pacman]=4 [zypper]=2 [brew]=5 )
 
   local PM
   PM=$(detect_package_manager)
