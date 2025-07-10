@@ -39,7 +39,7 @@ tools() {
     "zoxide      zoxide      zoxide      zoxide      zoxide      zoxide      zoxide      zoxide"
     "pv          pv          -           pv          pv          pv          pv          pv"
     "unzip       unzip       unzip       unzip       unzip       unzip       unzip       unzip"
-    "7z          7z          7z          p7zip-full  p7zip       p7zip       p7zip       p7zip"
+    "7z          7z          7z          p7zip       p7zip       p7zip       p7zip       p7zip"
     "unrar       unrar       -           unrar       unrar       unrar       unrar       unrar"
     "curl        curl        curl        curl        curl        curl        curl        curl"
     "wget        wget        wget        wget        wget        wget        wget        wget"
