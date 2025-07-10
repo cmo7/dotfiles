@@ -37,10 +37,10 @@ tools() {
     "exa         exa         exa         exa         exa         exa"
     "starship    starship    starship    starship    starship    starship"
     "zoxide      zoxide      zoxide      zoxide      zoxide      zoxide"
-    "extract     pv          pv          pv          pv          pv"
+    "pv          -           pv          pv          pv          pv"
     "unzip       unzip       unzip       unzip       unzip       unzip"
     "7z          7z          p7zip-full  p7zip       p7zip       p7zip"
-    "unrar       unrar       unrar       unrar       unrar       unrar"
+    "unrar       -           unrar       unrar       unrar       unrar"
   )
 
   declare -A PM_INDEX=( [scoop]=1 [apt]=2 [dnf]=3 [pacman]=4 [zypper]=2 [brew]=5 )
@@ -60,8 +60,17 @@ tools() {
       printf "\n%-12s %-10s %s\n" "Herramienta" "Estado" "Versión"
       echo "-----------------------------------------------"
       for line in "${TOOLS[@]}"; do
-        read -r name exe _ <<< "$line"
+        read -r name exe scoop apt dnf pac zyp brew <<< "$line"
         [[ -n "$FILTER" && "$FILTER" != "$name" ]] && continue
+        
+        # Verificar si la herramienta está disponible para el gestor actual
+        index=${PM_INDEX[$PM]}
+        pkg_name=$(echo "$line" | awk -v i=$((index+1)) '{ print $i }')
+        if [[ "$pkg_name" == "-" ]]; then
+          printf "⚠️ %-12s OMITIDA   (no disponible en %s)\n" "$name" "$PM"
+          continue
+        fi
+        
         if is_installed "$exe"; then
           version=$("$exe" --version 2>/dev/null | head -n 1)
           printf "✅ %-12s OK        %s\n" "$name" "$version"
@@ -74,11 +83,17 @@ tools() {
       echo "📦 Instalando herramientas faltantes..."
       local TO_INSTALL=()
       for line in "${TOOLS[@]}"; do
-        read -r name exe scoop apt dnf pac brew <<< "$line"
+        read -r name exe scoop apt dnf pac zyp brew <<< "$line"
         [[ -n "$FILTER" && "$FILTER" != "$name" ]] && continue
+        
+        # Verificar si la herramienta está disponible para el gestor actual
+        index=${PM_INDEX[$PM]}
+        pkg_name=$(echo "$line" | awk -v i=$((index+1)) '{ print $i }')
+        if [[ "$pkg_name" == "-" ]]; then
+          continue  # Omitir herramientas no disponibles
+        fi
+        
         if ! is_installed "$exe"; then
-          index=${PM_INDEX[$PM]}
-          pkg_name=$(echo "$line" | awk -v i=$((index+1)) '{ print $i }')
           TO_INSTALL+=("$pkg_name")
         fi
       done

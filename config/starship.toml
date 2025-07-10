@@ -25,6 +25,7 @@ $docker_context\
 $conda\
 [](fg:color_bg3 bg:color_bg1)\
 $time\
+$cpu_temp\
 [ ](fg:color_bg1)\
 $line_break$character"""
 
@@ -177,3 +178,9 @@ vimcmd_symbol = '[](bold fg:color_green)'
 vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
 vimcmd_replace_symbol = '[](bold fg:color_purple)'
 vimcmd_visual_symbol = '[](bold fg:color_yellow)'
+
+[custom.cpu_temp]
+command = "~/.local/bin/cpu_temp || true"
+when = true
+symbol = " "
+style = "bold yellow"
