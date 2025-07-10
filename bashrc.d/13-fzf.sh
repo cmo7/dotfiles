@@ -30,12 +30,12 @@ if command -v fzf >/dev/null 2>&1; then
       if [[ -n "$TMUX" ]]; then
         local file
         file=$(find . -type f -not -path '*/\.*' | fzf --prompt="✏️ Editar: " --height=40% --border --preview="bat --style=numbers --color=always --line-range :500 {}")
-        [[ -n "$file" ]] && ${EDITOR:-vim} "$file"
+        [[ -n "$file" ]] && "$EDITOR" "$file"
       else
         echo "⚠️  Esta función funciona mejor desde dentro de tmux"
         local file
         file=$(find . -type f -not -path '*/\.*' | fzf --prompt="✏️ Editar: " --height=40% --border --preview="bat --style=numbers --color=always --line-range :500 {}")
-        [[ -n "$file" ]] && ${EDITOR:-vim} "$file"
+        [[ -n "$file" ]] && "$EDITOR" "$file"
       fi
     }
 

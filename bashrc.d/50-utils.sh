@@ -3,7 +3,7 @@ hgrep() {
 }
 
 fedit() {
-  fd --hidden --follow --exclude .git . "${1:-.}" | fzf | xargs -r "${EDITOR:-nvim}"
+  fd --hidden --follow --exclude .git . "${1:-.}" | fzf | xargs -r "$EDITOR"
 }
 
 search() {
@@ -126,3 +126,16 @@ extract() {
 
 # Alias para extract
 alias x='extract'
+
+# Función para editar con editor visual (mejor para archivos de configuración grandes)
+vedit() {
+  if [[ $# -eq 0 ]]; then
+    # Si no se proporciona archivo, usar fzf para seleccionar
+    local file
+    file=$(fd --hidden --follow --exclude .git --type f . "${PWD}" | fzf --prompt="📝 Editar con $VISUAL: " --height=40% --border --preview="bat --color=always {}")
+    [[ -n "$file" ]] && "$VISUAL" "$file"
+  else
+    # Si se proporciona archivo, editarlo directamente
+    "$VISUAL" "$@"
+  fi
+}

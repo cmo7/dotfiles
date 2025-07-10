@@ -19,6 +19,21 @@ dots() {
 # Función para editar configuraciones de bash
 editbash() {
     local bashrc_d="${DOTFILES_DIR:-$HOME/dotfiles}/bashrc.d"
+    local use_visual=false
+    
+    # Parsear argumentos
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            -v|--visual)
+                use_visual=true
+                shift
+                ;;
+            *)
+                break
+                ;;
+        esac
+    done
+    
     if ! check_deps fzf; then
         log_error "fzf es requerido para esta función"
         return 1
@@ -29,7 +44,11 @@ editbash() {
         file=$(find "$bashrc_d" -name "*.sh" -type f | fzf --prompt="Editar archivo bash: " --height=40% --preview="bat --color=always {}")
         
         if [[ -n "$file" ]]; then
-            "${EDITOR:-nvim}" "$file"
+            if [[ "$use_visual" == true ]]; then
+                "$VISUAL" "$file"
+            else
+                "$EDITOR" "$file"
+            fi
         else
             log_warning "No se seleccionó ningún archivo"
         fi
@@ -72,3 +91,4 @@ dotsync() {
 # Aliases
 alias dotfiles='dots'
 alias edbash='editbash'
+alias edbashv='editbash --visual'  # Editar con editor visual

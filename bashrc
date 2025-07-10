@@ -15,3 +15,8 @@ if [[ -d "$BASHRC_D" ]]; then
     [[ -f "$script" && -r "$script" ]] && source "$script"
   done
 fi
+
+# Cargar configuraciones específicas locales
+# Si existe, carga .bashrc.local para personalizaciones del usuario
+# Esto permite que el usuario agregue configuraciones sin modificar el archivo principal
+[[ -f "$HOME/.bashrc.local" ]] && source "$HOME/.bashrc.local"

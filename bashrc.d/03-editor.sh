@@ -95,7 +95,7 @@ export GIT_EDITOR="$EDITOR"
 
 # Alias útiles para edición rápida
 alias edit='$EDITOR'
-alias vedit='$VISUAL'
+# Nota: función vedit() está definida en 50-utils.sh
 
 # ================================
 # UTILIDADES DE DEPURACIÓN
