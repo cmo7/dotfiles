@@ -12,7 +12,6 @@ BASHRC_D="$HOME/.bashrc.d"
 
 if [[ -d "$BASHRC_D" ]]; then
   for script in "$BASHRC_D"/*.sh; do
-    # Solo cargar si es legible
-    [[ -r "$script" ]] && source "$script"
+    [[ -f "$script" && -r "$script" ]] && source "$script"
   done
 fi

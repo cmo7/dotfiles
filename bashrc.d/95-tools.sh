@@ -25,25 +25,28 @@ tools() {
   local ACTION="${1:-doctor}"
   local FILTER="${2:-}"  # Opción para filtrar por herramienta
 
-  #   Ejecutable    Scoop      APT         DNF         Pacman     Zypper     Brew
-  #   -----------  ---------  ----------  ----------  ----------  ---------  ----------
+  #   Nombre       Ejecutable  Scoop       APT         DNF         Pacman      Zypper      Brew
+  #   ----------   ----------  ----------  ----------  ----------  ----------  ----------  ----------
   local TOOLS=(
-    "git         git         git         git         git         git"
-    "fzf         fzf         fzf         fzf         fzf         fzf"
-    "fd          fd          fd-find     fd-find     fd          fd"
-    "ripgrep     rg          ripgrep     ripgrep     ripgrep     ripgrep"
-    "delta       delta       git-delta   git-delta   delta       git-delta"
-    "bat         bat         bat         bat         bat         bat"
-    "exa         exa         exa         exa         exa         exa"
-    "starship    starship    starship    starship    starship    starship"
-    "zoxide      zoxide      zoxide      zoxide      zoxide      zoxide"
-    "pv          -           pv          pv          pv          pv"
-    "unzip       unzip       unzip       unzip       unzip       unzip"
-    "7z          7z          p7zip-full  p7zip       p7zip       p7zip"
-    "unrar       -           unrar       unrar       unrar       unrar"
+    "git         git         git         git         git         git         git         git"
+    "fzf         fzf         fzf         fzf         fzf         fzf         fzf         fzf"
+    "fd          fd          fd          fd-find     fd-find     fd          fd          fd"
+    "ripgrep     rg          ripgrep     ripgrep     ripgrep     ripgrep     ripgrep     ripgrep"
+    "delta       delta       delta       git-delta   git-delta   git-delta   git-delta   git-delta"
+    "bat         bat         bat         bat         bat         bat         bat         bat"
+    "eza         eza         eza         eza         eza         eza         eza         eza"
+    "starship    starship    starship    starship    starship    starship    starship    starship"
+    "zoxide      zoxide      zoxide      zoxide      zoxide      zoxide      zoxide      zoxide"
+    "pv          pv          -           pv          pv          pv          pv          pv"
+    "unzip       unzip       unzip       unzip       unzip       unzip       unzip       unzip"
+    "7z          7z          7z          p7zip-full  p7zip       p7zip       p7zip       p7zip"
+    "unrar       unrar       -           unrar       unrar       unrar       unrar       unrar"
+    "curl        curl        curl        curl        curl        curl        curl        curl"
+    "wget        wget        wget        wget        wget        wget        wget        wget"
+    "jq          jq          jq          jq          jq          jq          jq          jq"
   )
 
-  declare -A PM_INDEX=( [scoop]=1 [apt]=2 [dnf]=3 [pacman]=4 [zypper]=2 [brew]=5 )
+  declare -A PM_INDEX=( [scoop]=2 [apt]=3 [dnf]=4 [pacman]=5 [zypper]=6 [brew]=7 )
 
   local PM
   PM=$(detect_package_manager)
@@ -65,7 +68,7 @@ tools() {
         
         # Verificar si la herramienta está disponible para el gestor actual
         index=${PM_INDEX[$PM]}
-        pkg_name=$(echo "$line" | awk -v i=$((index+1)) '{ print $i }')
+        pkg_name=$(echo "$line" | awk -v i=$index '{ print $i }')
         if [[ "$pkg_name" == "-" ]]; then
           printf "⚠️ %-12s OMITIDA   (no disponible en %s)\n" "$name" "$PM"
           continue
@@ -73,6 +76,10 @@ tools() {
         
         if is_installed "$exe"; then
           version=$("$exe" --version 2>/dev/null | head -n 1)
+          # Cropear la versión a máximo 40 caracteres
+          if [[ ${#version} -gt 40 ]]; then
+            version="${version:0:37}..."
+          fi
           printf "✅ %-12s OK        %s\n" "$name" "$version"
         else
           printf "❌ %-12s FALTA     (%s)\n" "$name" "$exe"
@@ -88,7 +95,7 @@ tools() {
         
         # Verificar si la herramienta está disponible para el gestor actual
         index=${PM_INDEX[$PM]}
-        pkg_name=$(echo "$line" | awk -v i=$((index+1)) '{ print $i }')
+        pkg_name=$(echo "$line" | awk -v i=$index '{ print $i }')
         if [[ "$pkg_name" == "-" ]]; then
           continue  # Omitir herramientas no disponibles
         fi
