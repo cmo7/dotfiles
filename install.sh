@@ -4,7 +4,7 @@ set -e
 
 # Ruta base del repositorio de dotfiles
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
-FILES=("bashrc" "tmux.conf")
+FILES=("bashrc" "tmux.conf" "vimrc")
 GITCONFIGS=("gitconfig-nartex" "gitconfig-personal")
 COPY_MODE=false
 
@@ -81,6 +81,12 @@ STARSHIP_SRC="$DOTFILES_DIR/config/starship.toml"
 STARSHIP_DEST="$HOME/.config/starship.toml"
 mkdir -p "$(dirname "$STARSHIP_DEST")"
 [[ -f "$STARSHIP_SRC" ]] && link_or_copy "$STARSHIP_SRC" "$STARSHIP_DEST" || echo "⚠️  Config starship no encontrada: $STARSHIP_SRC"
+
+# Neovim config
+NVIM_SRC="$DOTFILES_DIR/config/nvim/init.lua"
+NVIM_DEST="$HOME/.config/nvim/init.lua"
+mkdir -p "$(dirname "$NVIM_DEST")"
+[[ -f "$NVIM_SRC" ]] && link_or_copy "$NVIM_SRC" "$NVIM_DEST" || echo "⚠️  Config nvim no encontrada: $NVIM_SRC"
 
 # bashrc.d
 ensure_bashrc_d() {
