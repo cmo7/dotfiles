@@ -1,11 +1,14 @@
 # ───────────── Detección de sistema ─────────────
-OS="$(uname -s)"
-case "$OS" in
-  Linux*)   export OS_TYPE="linux" ;;
-  Darwin*)  export OS_TYPE="mac" ;;
-  CYGWIN*|MINGW*|MSYS*) export OS_TYPE="windows" ;;
-  *)        export OS_TYPE="unknown" ;;
-esac
+# Detectar el sistema operativo sin usar uname
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
+  export OS_TYPE="windows"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  export OS_TYPE="linux"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  export OS_TYPE="mac"
+else
+  export OS_TYPE="unknown"
+fi
 
 if grep -qi microsoft /proc/version 2>/dev/null; then
   export IS_WSL=true

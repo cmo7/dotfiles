@@ -10,6 +10,3 @@ scoop_path() {
   echo "${SCOOP_DIR:-$HOME/scoop}/apps/$app/current"
 }
 
-if [[ -d "$SCOOP_DIR/apps/zulu8-jdk/current" ]]; then
-  export JAVA_HOME=$(scoop_path zulu8-jdk)
-fi

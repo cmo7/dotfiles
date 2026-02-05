@@ -1,4 +1,30 @@
 gitid() {
+  local identity="${1:-}"
+  local dotfiles_dir="${DOTFILES_DIR:-$HOME/dotfiles}"
+  
+  # Si se proporciona un parámetro, cargar esa identidad
+  if [[ -n "$identity" ]]; then
+    case "$identity" in
+      personal)
+        git config --global user.name "Marce Concepcion"
+        git config --global user.email "marcelinocb@gmail.com"
+        echo "✅ Cargada identidad personal"
+        ;;
+      nartex)
+        git config --global user.name "Marce Concepcion"
+        git config --global user.email "mconcepcion@nartexsoft.com"
+        echo "✅ Cargada identidad nartex"
+        ;;
+      *)
+        echo "❌ Identidad desconocida: $identity"
+        echo "Opciones disponibles: personal, nartex"
+        return 1
+        ;;
+    esac
+    echo
+  fi
+  
+  # Mostrar identidad actual
   echo "📛 Git Identity:"
   
   local name email name_origin email_origin
