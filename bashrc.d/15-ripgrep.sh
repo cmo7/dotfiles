@@ -1,6 +1,5 @@
 # ripgrep - Line-oriented search tool
 if command -v rg >/dev/null 2>&1; then
-  alias grep='rg'
   alias rgg='rg --glob "!.git/*"'
   alias rgh='rg --heading --line-number'
   alias rgw='rg --word-regexp'

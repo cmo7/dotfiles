@@ -68,7 +68,7 @@ langs() {
     "r           R           r               r-base             R                  r               R-base-devel        r"
     "scala       scala       -               scala              -                  scala           -                   scala"
     "kotlin      kotlin      -               kotlin             -                  kotlin          -                   kotlin"
-    "swift       swift       -               swift              swift              swift           swift               swift"
+    "swift       swift       -               -                  swift              swift           swift               swift"
   )
 
   declare -A PM_INDEX=( [scoop]=2 [apt]=3 [dnf]=4 [pacman]=5 [zypper]=6 [brew]=7 )

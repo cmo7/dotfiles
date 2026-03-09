@@ -28,7 +28,7 @@ tools() {
     "fzf         fzf         fzf         fzf         fzf         fzf         fzf         fzf"
     "fd          fd          fd          fd-find     fd-find     fd          fd          fd"
     "ripgrep     rg          ripgrep     ripgrep     ripgrep     ripgrep     ripgrep     ripgrep"
-    "delta       delta       delta       git-delta   git-delta   git-delta   git-delta   git-delta"
+    "delta       delta       delta       delta       git-delta   git-delta   git-delta   git-delta"
     "bat         bat         bat         bat         bat         bat         bat         bat"
     "eza         eza         eza         eza         eza         eza         eza         eza"
     "starship    starship    starship    starship    starship    starship    starship    starship"

@@ -15,6 +15,8 @@
 #   dlogs       - Alias para docklogs
 # ───────────────────────────────────────────────────────────────
 
+if command -v docker >/dev/null 2>&1; then
+
 dockexec() {
   local container_name="$1"
   local command_to_run
@@ -137,10 +139,10 @@ alias dex='dockexec'
 alias dlogs='docklogs'
 
 # 🐳 Alias de inspección rápida
-if command -v docker >/dev/null 2>&1; then
-  alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
-  alias dtop='docker stats --no-stream'
-  alias dstopall='docker ps -q | xargs -r docker stop'
-  alias drm='docker container prune -f'
-  alias dri='docker image prune -a -f'
-fi
+alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
+alias dtop='docker stats --no-stream'
+alias dstopall='docker ps -q | xargs -r docker stop'
+alias drm='docker container prune -f'
+alias dri='docker image prune -a -f'
+
+fi # command -v docker

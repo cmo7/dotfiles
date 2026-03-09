@@ -76,6 +76,11 @@ for gconf in "${GITCONFIGS[@]}"; do
   [[ -f "$src" ]] && cp "$src" "$dest" && echo "📋 Copia de $gconf → $dest" || echo "⚠️  Git config no encontrada: $src — omitida"
 done
 
+# ripgrep config
+RIPGREP_SRC="$DOTFILES_DIR/ripgreprc"
+RIPGREP_DEST="$HOME/.ripgreprc"
+[[ -f "$RIPGREP_SRC" ]] && link_or_copy "$RIPGREP_SRC" "$RIPGREP_DEST" || echo "⚠️  ripgreprc no encontrado: $RIPGREP_SRC"
+
 # Starship config
 STARSHIP_SRC="$DOTFILES_DIR/config/starship.toml"
 STARSHIP_DEST="$HOME/.config/starship.toml"

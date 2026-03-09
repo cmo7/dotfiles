@@ -1,0 +1,26 @@
+# ripgrep configuration
+# https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
+
+# Smart case: case-insensitive unless pattern contains uppercase
+--smart-case
+
+# Follow symbolic links
+--follow
+
+# Search hidden files and directories
+--hidden
+
+# ─── Common excludes ───────────────────────────────────────────
+--glob=!.git/*
+--glob=!.svn/*
+--glob=!node_modules/*
+--glob=!target/*
+--glob=!dist/*
+--glob=!build/*
+--glob=!out/*
+--glob=!__pycache__/*
+--glob=!*.min.js
+--glob=!*.min.css
+--glob=!*.lock
+--glob=!package-lock.json
+--glob=!yarn.lock

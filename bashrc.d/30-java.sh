@@ -4,15 +4,30 @@ set_java() {
   local version="$1"
   local home=""
 
+  if [[ "${OS_TYPE:-}" != "windows" ]]; then
+    echo "⚠️  set_java is only supported on Windows (Scoop). Use your system Java manager on other OSes."
+    return 1
+  fi
+
   case "$version" in
     8|1.8)
       home="$(scoop_path zulu8-jdk)"
+      ;;
+    11)
+      home="$(scoop_path openjdk11)"
+      ;;
+    17)
+      home="$(scoop_path openjdk17)"
+      ;;
+    21)
+      home="$(scoop_path openjdk21)"
       ;;
     25)
       home="$(scoop_path openjdk)"
       ;;
     *)
       echo "Unsupported Java version in .java-version: '$version'"
+      echo "Supported versions: 8, 11, 17, 21, 25"
       return 1
       ;;
   esac

@@ -8,7 +8,7 @@ add_path_front_unique() {
 }
 
 is_wsl_here() {
-  grep -qi microsoft /proc/version 2>/dev/null
+  [[ "${IS_WSL:-false}" == "true" ]]
 }
 
 # Añadir $HOME/.local/bin de forma única
