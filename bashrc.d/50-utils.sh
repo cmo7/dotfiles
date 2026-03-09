@@ -3,10 +3,16 @@ hgrep() {
 }
 
 fedit() {
+  command -v fd >/dev/null 2>&1 || { echo "❌ fd no está instalado."; return 1; }
+  command -v fzf >/dev/null 2>&1 || { echo "❌ fzf no está instalado."; return 1; }
+  [[ -n "${EDITOR:-}" ]] || { echo "❌ \$EDITOR no está definido."; return 1; }
   fd --hidden --follow --exclude .git . "${1:-.}" | fzf | xargs -r "$EDITOR"
 }
 
 search() {
+  command -v rg >/dev/null 2>&1 || { echo "❌ ripgrep (rg) no está instalado."; return 1; }
+  command -v fzf >/dev/null 2>&1 || { echo "❌ fzf no está instalado."; return 1; }
+  command -v bat >/dev/null 2>&1 || command -v batcat >/dev/null 2>&1 || { echo "❌ bat no está instalado."; return 1; }
   RG_PREFIX="rg --column --line-number --no-heading --color=always"
   FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
     fzf --bind "change:reload:$RG_PREFIX {q} || true" \
@@ -129,6 +135,9 @@ alias x='extract'
 
 # Función para editar con editor visual (mejor para archivos de configuración grandes)
 vedit() {
+  command -v fd >/dev/null 2>&1 || { echo "❌ fd no está instalado."; return 1; }
+  command -v fzf >/dev/null 2>&1 || { echo "❌ fzf no está instalado."; return 1; }
+  [[ -n "${VISUAL:-}" ]] || { echo "❌ \$VISUAL no está definido."; return 1; }
   if [[ $# -eq 0 ]]; then
     # Si no se proporciona archivo, usar fzf para seleccionar
     local file

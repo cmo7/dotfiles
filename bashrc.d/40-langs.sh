@@ -1,16 +1,5 @@
 # Detecta e instala lenguajes de programación
 
-# Función para detectar el gestor de paquetes (reutilizada de tools)
-detect_package_manager() {
-  for pm in scoop apt dnf pacman zypper brew; do
-    if command -v "$pm" &>/dev/null; then
-      echo "$pm"
-      return
-    fi
-  done
-  echo "none"
-}
-
 # Función para caché de binarios (reutilizada de tools)
 declare -A LANG_BIN_CACHE
 declare -A LANG_BIN_ALTERNATIVES=( [fd]="fdfind" [bat]="batcat" )

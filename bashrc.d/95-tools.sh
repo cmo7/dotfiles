@@ -1,14 +1,3 @@
-# Función para detectar el gestor de paquetes
-detect_package_manager() {
-  for pm in scoop apt dnf pacman zypper brew; do
-    if command -v "$pm" &>/dev/null; then
-      echo "$pm"
-      return
-    fi
-  done
-  echo "none"
-}
-
 # Función para caché de binarios
 declare -A BIN_CACHE
 # Debian/Ubuntu alternative binary names for some tools

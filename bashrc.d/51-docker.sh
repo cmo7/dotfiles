@@ -135,3 +135,12 @@ alias de='dockenter'
 alias dex='dockexec'
 # Alias para docklogs
 alias dlogs='docklogs'
+
+# 🐳 Alias de inspección rápida
+if command -v docker >/dev/null 2>&1; then
+  alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"'
+  alias dtop='docker stats --no-stream'
+  alias dstopall='docker ps -q | xargs -r docker stop'
+  alias drm='docker container prune -f'
+  alias dri='docker image prune -a -f'
+fi
