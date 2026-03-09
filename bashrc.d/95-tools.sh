@@ -11,10 +11,17 @@ detect_package_manager() {
 
 # Función para caché de binarios
 declare -A BIN_CACHE
+# Debian/Ubuntu alternative binary names for some tools
+declare -A BIN_ALTERNATIVES=( [fd]="fdfind" [bat]="batcat" )
 is_installed() {
   local exe="$1"
   [[ -n "${BIN_CACHE[$exe]}" ]] && return 0
   if command -v "$exe" &>/dev/null; then
+    BIN_CACHE["$exe"]=1
+    return 0
+  fi
+  local alt="${BIN_ALTERNATIVES[$exe]:-}"
+  if [[ -n "$alt" ]] && command -v "$alt" &>/dev/null; then
     BIN_CACHE["$exe"]=1
     return 0
   fi
@@ -39,7 +46,7 @@ tools() {
     "zoxide      zoxide      zoxide      zoxide      zoxide      zoxide      zoxide      zoxide"
     "pv          pv          -           pv          pv          pv          pv          pv"
     "unzip       unzip       unzip       unzip       unzip       unzip       unzip       unzip"
-    "7z          7z          7z          p7zip       p7zip       p7zip       p7zip       p7zip"
+    "7z          7z          7z          p7zip-full  p7zip       p7zip       p7zip       p7zip"
     "unrar       unrar       -           unrar       unrar       unrar       unrar       unrar"
     "curl        curl        curl        curl        curl        curl        curl        curl"
     "wget        wget        wget        wget        wget        wget        wget        wget"

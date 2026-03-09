@@ -1,5 +1,14 @@
 # fd - Simple, fast and user-friendly alternative to find
-if command -v fd >/dev/null 2>&1; then
+# On Debian/Ubuntu, fd is installed as `fdfind`
+_fd_cmd=""
+if command -v fdfind >/dev/null 2>&1; then
+  _fd_cmd="fdfind"
+elif command -v fd >/dev/null 2>&1; then
+  _fd_cmd="fd"
+fi
+
+if [[ -n "$_fd_cmd" ]]; then
+  alias fd="$_fd_cmd"
   alias find='fd'
   alias ff='fd --type f'
   alias ffd='fd --type d'
@@ -14,3 +23,4 @@ if command -v fd >/dev/null 2>&1; then
     alias fdd='fd --type d | fzf'
   fi
 fi
+unset _fd_cmd

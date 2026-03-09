@@ -13,10 +13,16 @@ detect_package_manager() {
 
 # Función para caché de binarios (reutilizada de tools)
 declare -A LANG_BIN_CACHE
+declare -A LANG_BIN_ALTERNATIVES=( [fd]="fdfind" [bat]="batcat" )
 is_lang_installed() {
   local exe="$1"
   [[ -n "${LANG_BIN_CACHE[$exe]}" ]] && return 0
   if command -v "$exe" &>/dev/null; then
+    LANG_BIN_CACHE["$exe"]=1
+    return 0
+  fi
+  local alt="${LANG_BIN_ALTERNATIVES[$exe]:-}"
+  if [[ -n "$alt" ]] && command -v "$alt" &>/dev/null; then
     LANG_BIN_CACHE["$exe"]=1
     return 0
   fi
